@@ -5,7 +5,7 @@ import torch_scatter
 def prepend_dummies(
         vertices:torch.Tensor, #V,D
         faces:torch.Tensor, #F,3 long
-    )->tuple[torch.Tensor,torch.Tensor]:
+    )->tuple(torch.Tensor,torch.Tensor):
     """prepend dummy elements to vertices and faces to enable "masked" scatter operations"""
     V,D = vertices.shape
     vertices = torch.concat((torch.full((1,D),fill_value=torch.nan,device=vertices.device),vertices),dim=0)
@@ -15,7 +15,7 @@ def prepend_dummies(
 def remove_dummies(
         vertices:torch.Tensor, #V,D - first vertex all nan and unreferenced
         faces:torch.Tensor, #F,3 long - first face all zeros
-    )->tuple[torch.Tensor,torch.Tensor]:
+    )->tuple(torch.Tensor,torch.Tensor):
     """remove dummy elements added with prepend_dummies()"""
     return vertices[1:],faces[1:]-1
 
@@ -23,7 +23,7 @@ def remove_dummies(
 def calc_edges(
         faces: torch.Tensor,  # F,3 long - first face may be dummy with all zeros
         with_edge_to_face: bool = False
-    ) -> tuple[torch.Tensor, ...]:
+    ) -> tuple(torch.Tensor, ...):
     """
     returns tuple of
     - edges E,2 long, 0 for unused, lower vertex index first
@@ -119,7 +119,7 @@ def calc_face_ref_normals(
 def pack(
         vertices:torch.Tensor, #V,3 first unused and nan
         faces:torch.Tensor, #F,3 long, 0 for unused
-        )->tuple[torch.Tensor,torch.Tensor]: #(vertices,faces), keeps first vertex unused
+        )->tuple(torch.Tensor,torch.Tensor): #(vertices,faces), keeps first vertex unused
     """removes unused elements in vertices and faces"""
     V = vertices.shape[0]
     
@@ -150,7 +150,7 @@ def split_edges(
         face_to_edge:torch.Tensor, #F,3 long 0 for unused
         splits, #E bool
         pack_faces:bool=True,
-        )->tuple[torch.Tensor,torch.Tensor]: #(vertices,faces)
+        )->tuple(torch.Tensor,torch.Tensor): #(vertices,faces)
 
     #   c2                    c2               c...corners = faces
     #    . .                   . .             s...side_vert, 0 means no split
@@ -203,7 +203,7 @@ def collapse_edges(
         edges:torch.Tensor, #E,2 long 0 for unused, lower vertex index first
         priorities:torch.Tensor, #E float
         stable:bool=False, #only for unit testing
-        )->tuple[torch.Tensor,torch.Tensor]: #(vertices,faces)
+        )->tuple(torch.Tensor,torch.Tensor): #(vertices,faces)
         
     V = vertices.shape[0]
     

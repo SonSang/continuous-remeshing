@@ -178,7 +178,7 @@ class MeshOptimizer:
             self._ref_len *= len_change
             self._ref_len.clamp_(*self._edge_len_lims)
 
-    def remesh(self, flip:bool=True)->tuple[torch.Tensor,torch.Tensor]:
+    def remesh(self, flip:bool=True)->tuple(torch.Tensor,torch.Tensor):
         min_edge_len = self._ref_len * (1 - self._edge_len_tol)
         max_edge_len = self._ref_len * (1 + self._edge_len_tol)
             

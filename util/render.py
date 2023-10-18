@@ -18,11 +18,15 @@ class NormalsRenderer:
             self,
             mv: torch.Tensor, #C,4,4
             proj: torch.Tensor, #C,4,4
-            image_size: tuple[int,int],
+            image_size: tuple(int,int),
             ):
         self._mvp = proj @ mv #C,4,4
         self._image_size = image_size
-        self._glctx = dr.RasterizeGLContext()
+        try:
+            self._glctx = dr.RasterizeGLContext()
+        except Exception as e:
+            print("Could not use GL rasterizer, falling back to CUDA rasterizer.")
+            self._glctx = dr.RasterizeCudaContext()
         _warmup(self._glctx)
 
     def render(self,
