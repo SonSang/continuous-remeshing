@@ -18,7 +18,7 @@ class NormalsRenderer:
             self,
             mv: torch.Tensor, #C,4,4
             proj: torch.Tensor, #C,4,4
-            image_size: tuple(int,int),
+            image_size: "tuple[int,int]",
             ):
         self._mvp = proj @ mv #C,4,4
         self._image_size = image_size

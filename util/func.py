@@ -33,7 +33,7 @@ def save_obj(
 def load_obj(
         filename:Path, 
         device='cuda'
-        ) -> tuple(torch.Tensor,torch.Tensor):
+        ) -> "tuple[torch.Tensor,torch.Tensor]":
     filename = Path(filename)
     obj_path = filename.with_suffix('.obj')
     with open(obj_path) as file:
@@ -202,7 +202,7 @@ def make_star_cameras(az_count,pol_count,distance:float=10.,r=None,image_size=[5
 
     return mv, _projection(r,device)
 
-def make_sphere(level:int=2,radius=1.,device='cuda') -> tuple(torch.Tensor,torch.Tensor):
+def make_sphere(level:int=2,radius=1.,device='cuda') -> "tuple[torch.Tensor,torch.Tensor]":
     sphere = trimesh.creation.icosphere(subdivisions=level, radius=1.0, color=None)
     vertices = torch.tensor(sphere.vertices, device=device, dtype=torch.float32) * radius
     faces = torch.tensor(sphere.faces, device=device, dtype=torch.long)

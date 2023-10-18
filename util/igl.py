@@ -8,7 +8,7 @@ def igl_flips(
         faces:np.array, #F,3
         target_vertices:np.array, #VT,3
         target_faces:np.array, #FT,3
-    )->tuple(np.array,np.array):
+    )->"tuple[np.array,np.array]":
 
     full_vertices = vertices[faces] #F,C=3,3
     face_centers = full_vertices.mean(axis=1) #F,3
