@@ -21,7 +21,7 @@ target_vertices = normalize_vertices(target_vertices)
 target_normals = calc_vertex_normals(target_vertices,target_faces)
 target_images = renderer.render(target_vertices,target_normals,target_faces)
 save_images(target_images[...,:3], './out/target_images/')
-save_images(target_images[...,3:], './out/target_alpha/')
+save_images(target_images[...,[3, 3, 3,]], './out/target_alpha/')
 
 vertices,faces = make_sphere(level=2,radius=.5)
 
@@ -44,7 +44,7 @@ for i in tqdm(range(steps)):
 
 save_obj(vertices,faces,'./out/result.obj')
 save_images(images[...,:3], './out/images/')
-save_images(images[...,3:], './out/alpha/')
+save_images(images[...,[3, 3, 3]], './out/alpha/')
 
 if show:
     show(target_vertices,target_faces,snapshots)
